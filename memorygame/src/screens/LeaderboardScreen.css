@@ -1,0 +1,241 @@
+.leaderboard-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-lg);
+  background: var(--gradient-hero);
+}
+
+.leaderboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xl);
+}
+
+.leaderboard-header h1 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--neutral-50);
+}
+
+.leaderboard-content {
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+  animation: fadeInUp var(--transition-base);
+}
+
+.leaderboard-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--neutral-900);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  margin-bottom: var(--spacing-lg);
+}
+
+.leaderboard-tab {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--neutral-400);
+  transition: all var(--transition-fast);
+}
+
+.leaderboard-tab.active {
+  background: var(--primary-600);
+  color: white;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.leaderboard-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--neutral-800);
+  border: 1px solid var(--neutral-700);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  animation: slideInRight var(--transition-base);
+}
+
+.leaderboard-row:hover {
+  border-color: var(--neutral-600);
+  transform: translateX(2px);
+}
+
+.leaderboard-row.current-user {
+  border-color: var(--primary-500);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.lb-rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: var(--neutral-900);
+  color: var(--neutral-400);
+  flex-shrink: 0;
+}
+
+.lb-rank.gold {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+
+.lb-rank.silver {
+  background: linear-gradient(135deg, #94a3b8, #64748b);
+  color: white;
+}
+
+.lb-rank.bronze {
+  background: linear-gradient(135deg, #b45309, #92400e);
+  color: white;
+}
+
+.lb-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.lb-name {
+  flex: 1;
+  font-weight: 600;
+  color: var(--neutral-100);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lb-score {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--warning-500);
+  flex-shrink: 0;
+}
+
+.lb-empty {
+  text-align: center;
+  padding: var(--spacing-3xl);
+  color: var(--neutral-500);
+}
+
+.lb-empty-icon {
+  margin-bottom: var(--spacing-md);
+  color: var(--neutral-700);
+}
+
+.lb-empty-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--neutral-400);
+  margin-bottom: var(--spacing-xs);
+}
+
+.lb-empty-text {
+  font-size: 0.9rem;
+}
+
+.lb-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--neutral-300);
+  margin-bottom: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+}
+
+.recent-game {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 10px 16px;
+  background: var(--neutral-800);
+  border: 1px solid var(--neutral-700);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+}
+
+.recent-game-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.recent-game-name {
+  flex: 1;
+  color: var(--neutral-200);
+  font-weight: 500;
+}
+
+.recent-game-difficulty {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+}
+
+.recent-game-score {
+  font-weight: 700;
+  color: var(--warning-500);
+}
+
+@media (max-width: 640px) {
+  .leaderboard-header h1 {
+    font-size: 1.25rem;
+  }
+  .lb-name {
+    font-size: 0.9rem;
+  }
+  .lb-score {
+    font-size: 1rem;
+  }
+  .lb-rank {
+    width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+  }
+  .lb-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+}

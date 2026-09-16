@@ -1,0 +1,119 @@
+.auth-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  background: var(--gradient-hero);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--neutral-800);
+  border: 1px solid var(--neutral-700);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-2xl);
+  box-shadow: var(--shadow-xl);
+  animation: scaleIn var(--transition-base);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.auth-header h1 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--neutral-50);
+  margin-bottom: var(--spacing-xs);
+}
+
+.auth-header p {
+  font-size: 0.9rem;
+  color: var(--neutral-400);
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--neutral-900);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  margin-bottom: var(--spacing-lg);
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--neutral-400);
+  transition: all var(--transition-fast);
+}
+
+.auth-tab.active {
+  background: var(--primary-600);
+  color: white;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.auth-color-picker {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.color-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.color-swatch:hover {
+  transform: scale(1.1);
+}
+
+.color-swatch.selected {
+  border-color: white;
+  box-shadow: 0 0 0 2px var(--primary-500);
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: var(--spacing-lg);
+  font-size: 0.85rem;
+  color: var(--neutral-500);
+}
+
+.auth-footer button {
+  color: var(--primary-400);
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.auth-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--neutral-400);
+  font-size: 0.85rem;
+  margin-bottom: var(--spacing-lg);
+  transition: color var(--transition-fast);
+}
+
+.auth-back:hover {
+  color: var(--neutral-100);
+}

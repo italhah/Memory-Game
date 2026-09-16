@@ -1,0 +1,208 @@
+.setup-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-lg);
+  background: var(--gradient-hero);
+}
+
+.setup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.setup-header h1 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--neutral-50);
+}
+
+.setup-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  animation: fadeInUp var(--transition-base);
+}
+
+.setup-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 700;
+  color: var(--neutral-50);
+  text-align: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.setup-subtitle {
+  font-size: 1rem;
+  color: var(--neutral-400);
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.difficulty-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+  width: 100%;
+  margin-bottom: var(--spacing-xl);
+}
+
+.difficulty-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-xl);
+  background: var(--neutral-800);
+  border: 2px solid var(--neutral-700);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.difficulty-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--card-color, var(--primary-500));
+}
+
+.difficulty-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--card-color, var(--primary-500));
+  box-shadow: var(--shadow-lg);
+}
+
+.difficulty-card.selected {
+  border-color: var(--card-color, var(--primary-500));
+  background: var(--neutral-700);
+  box-shadow: var(--shadow-lg), 0 0 20px var(--card-glow, rgba(59, 130, 246, 0.2));
+}
+
+.difficulty-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--spacing-md);
+  background: var(--card-color-bg, rgba(59, 130, 246, 0.15));
+  color: var(--card-color, var(--primary-400));
+}
+
+.difficulty-label {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--neutral-50);
+  margin-bottom: var(--spacing-xs);
+}
+
+.difficulty-desc {
+  font-size: 0.85rem;
+  color: var(--neutral-400);
+  line-height: 1.5;
+}
+
+.difficulty-stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--neutral-700);
+}
+
+.difficulty-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.difficulty-stat-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--neutral-500);
+}
+
+.difficulty-stat-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--neutral-200);
+}
+
+.setup-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.setup-best {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--neutral-800);
+  border: 1px solid var(--neutral-700);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  color: var(--neutral-300);
+}
+
+.setup-best-value {
+  font-weight: 700;
+  color: var(--warning-500);
+}
+
+@media (max-width: 768px) {
+  .difficulty-cards {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+  .difficulty-card {
+    padding: var(--spacing-lg);
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+  .difficulty-icon {
+    margin: 0 var(--spacing-md) 0 0;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+  .difficulty-label {
+    font-size: 1.25rem;
+    margin-bottom: 2px;
+  }
+  .difficulty-stats {
+    margin-top: var(--spacing-sm);
+    padding-top: var(--spacing-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .difficulty-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .difficulty-icon {
+    margin: 0 auto var(--spacing-sm);
+  }
+}

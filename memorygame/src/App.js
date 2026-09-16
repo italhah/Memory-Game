@@ -1,123 +1,167 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
+import { useState, useCallback } from 'react';
+import { AuthProvider, useAuth } from './lib/AuthContext';
+import LandingScreen from './screens/LandingScreen';
+import AuthScreen from './screens/AuthScreen';
+import GameSetupScreen from './screens/GameSetupScreen';
+import GameScreen from './screens/GameScreen';
+import ResultsScreen from './screens/ResultsScreen';
+import LeaderboardScreen from './screens/LeaderboardScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import Spinner from './components/ui/Spinner';
+import './App.css';
 
-// Import the back image
-import backImage from './backpic.PNG'; // Adjust the path if needed
+function AppContent() {
+  const { user, profile, loading, signUp, signIn } = useAuth();
+  const [screen, setScreen] = useState('landing');
+  const [difficulty, setDifficulty] = useState('easy');
+  const [lastResult, setLastResult] = useState(null);
+  const [authMode, setAuthMode] = useState('signin');
 
-// Import all card images
-import angular from './card/angular.PNG';
-import bootstrap from './card/bootstrap.PNG';
-import github from './card/github.PNG';
-import next from './card/next.PNG';
-import react from './card/react.PNG';
-import vue from './card/vue.PNG';
-
-// The card data (each card has a duplicate to form pairs)
-const cardImages = [
-  { src: angular, matched: false },
-  { src: bootstrap, matched: false },
-  { src: github, matched: false },
-  { src: next, matched: false },
-  { src: react, matched: false },
-  { src: vue, matched: false },
-];
-
-function App() {
-  const [cards, setCards] = useState([]);
-  const [turns, setTurns] = useState(0);
-  const [choiceOne, setChoiceOne] = useState(null);
-  const [choiceTwo, setChoiceTwo] = useState(null);
-  const [disabled, setDisabled] = useState(false);
-
-  // Function to shuffle cards and start a new game
-  const shuffleCards = () => {
-    const shuffledCards = [...cardImages, ...cardImages]
-      .sort(() => Math.random() - 0.5)
-      .map((card) => ({ ...card, id: Math.random() }));
-
-    setChoiceOne(null);
-    setChoiceTwo(null);
-    setCards(shuffledCards);
-    setTurns(0);
-  };
-
-  // Handle a card click
-  const handleChoice = (card) => {
-    choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
-  };
-
-  // Compare two selected cards
-  useEffect(() => {
-    if (choiceOne && choiceTwo) {
-      setDisabled(true);
-      if (choiceOne.src === choiceTwo.src) {
-        setCards((prevCards) =>
-          prevCards.map((card) =>
-            card.src === choiceOne.src ? { ...card, matched: true } : card
-          )
-        );
-        resetTurn();
-      } else {
-        setTimeout(() => resetTurn(), 1000);
-      }
-    }
-  }, [choiceOne, choiceTwo]);
-
-  // Reset choices & increment turn count
-  const resetTurn = () => {
-    setChoiceOne(null);
-    setChoiceTwo(null);
-    setTurns((prevTurns) => prevTurns + 1);
-    setDisabled(false);
-  };
-
-  // Start a new game automatically when the component mounts
-  useEffect(() => {
-    shuffleCards();
+  const handleStartGuest = useCallback(() => {
+    setDifficulty('easy');
+    setScreen('setup');
   }, []);
 
-  return (
-    <div className="App">
-      <div className="head"><h1>MEMORY GAME</h1></div>
-      <button onClick={shuffleCards}>New Game</button>
+  const handleStartSignedIn = useCallback(() => {
+    setScreen('setup');
+  }, []);
 
-      <div className="card-grid">
-        {cards.map((card) => (
-          <SingleCard
-            key={card.id}
-            card={card}
-            handleChoice={handleChoice}
-            flipped={card === choiceOne || card === choiceTwo || card.matched}
-            disabled={disabled}
-          />
-        ))}
-      </div>
+  const handleSignIn = useCallback(() => {
+    setAuthMode('signin');
+    setScreen('auth');
+  }, []);
 
-      <p>Turns: {turns}</p>
-      <p className="ref">  Developed by Talha Rahman  </p>
-    </div>
-  );
-}
-
-function SingleCard({ card, handleChoice, flipped, disabled }) {
-  const handleClick = () => {
-    if (!disabled) {
-      handleChoice(card);
+  const handleAuthSubmit = useCallback(async ({ mode, email, password, displayName, avatarColor }) => {
+    if (mode === 'signup') {
+      await signUp(email, password, displayName, avatarColor);
+    } else {
+      await signIn(email, password);
     }
-  };
+    setScreen('setup');
+  }, [signUp, signIn]);
 
-  return (
-    <div className="card" onClick={handleClick}>
-      <div className={flipped ? "flipped" : ""}>
-        <img className="front" src={card.src} alt="card front" /> {/* Use the card's src */}
-        <img
-          className="back"
-          src={backImage} // Use the imported back image here
-          alt="card back"
-        />
+  const handleDifficultySelected = useCallback((diff) => {
+    setDifficulty(diff);
+    setScreen('game');
+  }, []);
+
+  const handleGameComplete = useCallback((result) => {
+    setLastResult(result);
+    setScreen('results');
+  }, []);
+
+  const handlePlayAgain = useCallback(() => {
+    setScreen('game');
+  }, []);
+
+  const handleMainMenu = useCallback(() => {
+    setScreen(user ? 'menu' : 'landing');
+  }, [user]);
+
+  const handleViewLeaderboard = useCallback(() => {
+    setScreen('leaderboard');
+  }, []);
+
+  const handleBackToMenu = useCallback(() => {
+    setScreen(user ? 'menu' : 'landing');
+  }, [user]);
+
+  const handleViewProfile = useCallback(() => {
+    setScreen('profile');
+  }, []);
+
+  const handleViewLeaderboardFromMenu = useCallback(() => {
+    setScreen('leaderboard');
+  }, []);
+
+  if (loading && screen === 'landing') {
+    return (
+      <div className="app-loading">
+        <Spinner size="lg" text="Loading..." />
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (screen === 'landing') {
+    return (
+      <LandingScreen
+        onStart={user ? handleStartSignedIn : handleStartGuest}
+        onSignIn={user ? handleViewProfile : handleSignIn}
+      />
+    );
+  }
+
+  if (screen === 'auth') {
+    return (
+      <AuthScreen
+        initialMode={authMode}
+        onBack={() => setScreen('landing')}
+        onAuthSuccess={handleAuthSubmit}
+      />
+    );
+  }
+
+  if (screen === 'menu' && user) {
+    return (
+      <GameSetupScreen
+        profile={profile}
+        onStart={handleDifficultySelected}
+        onBack={() => setScreen('landing')}
+      />
+    );
+  }
+
+  if (screen === 'setup') {
+    return (
+      <GameSetupScreen
+        profile={profile}
+        onStart={handleDifficultySelected}
+        onBack={() => setScreen('landing')}
+      />
+    );
+  }
+
+  if (screen === 'game') {
+    return (
+      <GameScreen
+        difficulty={difficulty}
+        onExit={() => setScreen(user ? 'menu' : 'landing')}
+        onGameComplete={handleGameComplete}
+      />
+    );
+  }
+
+  if (screen === 'results' && lastResult) {
+    return (
+      <ResultsScreen
+        result={lastResult}
+        onPlayAgain={handlePlayAgain}
+        onMainMenu={handleMainMenu}
+        onViewLeaderboard={handleViewLeaderboard}
+      />
+    );
+  }
+
+  if (screen === 'leaderboard') {
+    return <LeaderboardScreen onBack={handleBackToMenu} />;
+  }
+
+  if (screen === 'profile' && user) {
+    return (
+      <ProfileScreen
+        onBack={() => setScreen('landing')}
+        onLeaderboard={handleViewLeaderboardFromMenu}
+      />
+    );
+  }
+
+  return <LandingScreen onStart={handleStartGuest} onSignIn={handleSignIn} />;
 }
 
-export default App;
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
